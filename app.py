@@ -60,6 +60,24 @@ def login():
 def register():
     return render_template('register.html')
 
+@app.route('/result')
+def result():
+    db=opendb()
+    ques=db.query(Question).all()
+    db.close()
+    return render_template('result.html',ques=ques)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    sess=opendb()
+    try:
+        sess.query(Question).filter(Question.id==id).delete()
+        sess.commit()
+        sess.close()
+        return redirect('/result')
+    except Exception as e:
+        return f"There was a problem while deleting {e}"
+
 @app.route('/play', methods=['GET','POST'])
 def play():
     if request.method == "POST":
