@@ -1,18 +1,17 @@
+from numpy import genfromtxt
 from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime, null
 from datetime import datetime
+
+
 
 Base = declarative_base()
 
-class Category(Base):
-    __tablename__ = 'category'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False, unique=True)
-    added_on = Column(DateTime, default=datetime.now)
+def Load_Data(file_name):
+    data = genfromtxt(file_name, delimiter=',', skip_header=1, converters={0: lambda s: str(s)})
+    return data.tolist()
 
-    def __str__(self):
-        return self.name
 
 class Question(Base):
     __tablename__ = 'questions'
@@ -23,7 +22,7 @@ class Question(Base):
     op3 = Column(String(255), nullable=False)
     op4 = Column(String(255), nullable=False)
     ans = Column(String(255), nullable=False)
-    category_id = Column(Integer,ForeignKey('category.id'))
+    category = Column(String(255),nullable=False)
     added_on = Column(DateTime, default=datetime.now)
 
     def __str__(self):
@@ -51,3 +50,4 @@ class Score(Base):
 if __name__ == "__main__":
     engine = create_engine("sqlite:///db.sqlite",echo=True)
     Base.metadata.create_all(engine)
+   

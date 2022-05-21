@@ -1,8 +1,9 @@
-from requests import sessions
-from database import Question
+
+from database import Question,Score,User
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect,session
+from ar import start_quiz
 app = Flask(__name__)
 app.secret_key = 'thisisaverysecretkey'
 
@@ -29,13 +30,17 @@ def index():
             return redirect('/')
         # more like this
         else:
-            db = opendb()
-            q = Question(title=question, op1=op1, op2=op2, op3=op3, op4=op4, ans=ans, category=category)
-            db.add(q)
-            db.commit()
-            db.close()
-            flash('Question added successfully', 'success')
-            return redirect('/')
+            try:
+                db = opendb()
+                q = Question(title=question, op1=op1, op2=op2, op3=op3, op4=op4, ans=ans, category=category)
+                db.add(q)
+                db.commit()
+                db.close()
+                flash('Question added successfully', 'success')
+                return redirect('/')
+            except Exception as e:
+                print("---------------->",e)
+                flash("Question could not be added, check console for logs",'danger')
 
     return render_template('index.html') 
     
@@ -47,7 +52,31 @@ def about():
 def contact():
     return render_template('contact.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/play', methods=['GET','POST'])
+def play():
+    if request.method == "POST":
+        category = request.form.get("category")
+        db = opendb()
+        questions = db.query(Question).filter(Question.category==category)
+        score = start_quiz(questions)
+        db.add(Score(session.get('id',1),score))
+        db.commit()
+        db.close()
+        session['score'] = score
+        return redirect('/result')
+    return render_template('play.html')
+
+@app.route('/result')
+def result():
+    return render_template('result.html')
 
 if __name__ == '__main__':
-  app.run(host='127.0.0.1', port=8000, debug=True)
+  app.run(host='127.0.0.1', port=5000, debug=True)

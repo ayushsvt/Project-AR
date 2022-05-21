@@ -1,6 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+
 <style>
   body{
     background-color: rgb(195, 171, 171);
@@ -102,6 +105,7 @@ body {
   -moz-osx-font-smoothing: grayscale;      
 }
 </style>
+<h1 class="text-center">Augmented Reality Quiz</h1>
 <div class="login-page">
     <div class="form">
       <form class="register-form">
@@ -119,3 +123,4 @@ body {
       </form>
     </div>
   </div>
+{% endblock %}
