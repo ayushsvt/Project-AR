@@ -62,11 +62,11 @@ def start_quiz(questions):
 
         if qNo < qTotal:
             mcq = mcqList[qNo]
-            img, bbox = cvzone.putTextRect(img, mcq.question, [100, 100], 2, 2, offset=50, border=5,colorR=(255,0,0))
-            img, bbox1 = cvzone.putTextRect(img, mcq.choice1, [100, 250], 2, 2, offset=50, border=5,colorR=(255,0,0))
-            img, bbox2 = cvzone.putTextRect(img, mcq.choice2, [400, 250], 2, 2, offset=50, border=5,colorR=(255,0,0))
-            img, bbox3 = cvzone.putTextRect(img, mcq.choice3, [100, 400], 2, 2, offset=50, border=5,colorR=(255,0,0))
-            img, bbox4 = cvzone.putTextRect(img, mcq.choice4, [400, 400], 2, 2, offset=50, border=5,colorR=(255,0,0))
+            img, bbox = cvzone.putTextRect(img, mcq.question, [100, 100], 2, 2, offset=40, border=2,colorR=(255,0,0))
+            img, bbox1 = cvzone.putTextRect(img, mcq.choice1, [100, 250], 2, 2, offset=40, border=2,colorR=(255,0,0))
+            img, bbox2 = cvzone.putTextRect(img, mcq.choice2, [400, 250], 2, 2, offset=40, border=2,colorR=(255,0,0))
+            img, bbox3 = cvzone.putTextRect(img, mcq.choice3, [100, 400], 2, 2, offset=40, border=2,colorR=(255,0,0))
+            img, bbox4 = cvzone.putTextRect(img, mcq.choice4, [400, 400], 2, 2, offset=40, border=2,colorR=(255,0,0))
 
             if hands:
                 lmList = hands[0]['lmList']
@@ -84,8 +84,8 @@ def start_quiz(questions):
                 if mcq.answer == mcq.userAns:
                     score += 1
             score = round((score / qTotal) * 100, 2)
-            img, _ = cvzone.putTextRect(img, "Quiz Completed", [250, 300], 2, 2, offset=50, border=5)
-            img, _ = cvzone.putTextRect(img, f'Your Score: {score}%', [700, 300], 2, 2, offset=50, border=5)
+            img, _ = cvzone.putTextRect(img, "Quiz Completed", [250, 300], 2, 2, offset=50, border=3)
+            img, _ = cvzone.putTextRect(img, f'Your Score: {score}%', [700, 300], 2, 2, offset=50, border=3)
             if hands:
                 lmList = hands[0]['lmList']
                 cursor = lmList[8]
