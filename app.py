@@ -152,7 +152,7 @@ def play():
             db.commit()
             db.close()
             session['score'] = score
-            return redirect('/result')
+            return redirect('/score')
         return render_template('play.html')
     return redirect('/')
 
