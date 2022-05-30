@@ -2,7 +2,7 @@ from numpy import genfromtxt
 from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime, null
-from datetime import datetime
+from datetime import datetime 
 
 
 

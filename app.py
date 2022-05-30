@@ -58,10 +58,6 @@ def display():
     return render_template('display.html',records=records)
 
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method=='POST':
@@ -117,6 +113,14 @@ def register():
             return redirect('/register')
     return render_template('register.html')
 
+@app.route('/score')
+def score():
+    db=opendb()
+    scores=db.query(Score).filter(Score.user_id==session.get('user_id',1)).order_by(Score.score)
+    db.close()
+    return render_template('score.html',scores=scores)
+
+
 @app.route('/result')
 def result():
     db=opendb()
@@ -151,6 +155,7 @@ def play():
             return redirect('/result')
         return render_template('play.html')
     return redirect('/')
+
 
 
 if __name__ == '__main__':
